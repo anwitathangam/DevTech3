@@ -189,4 +189,129 @@ public class EntityBitsTest {
         // Verify that the loaded record's primary key matches the specified key
         assertEquals(primaryKey, entityBits.primaryKey());
     }
+
+
+    @Before
+    public void setUp() {
+        entity = new EntityBits();
+        // Set up your JDBCConnectionMaker for testing
+        entity.setDbConnector(jdbcConnectionMaker);
+    }
+
+    @Test
+    public void testCreate() {
+        // Set up the entity with test data
+        entity.setMn(123);
+        entity.setOp(EntityBits.OPValues.i);
+        entity.setQr(new java.util.Date());
+
+        // Call the create method
+        boolean result = entity.create();
+
+        // Check if the record was successfully created
+        assertTrue(result);
+        assertTrue(entity.primaryKey() > 0);
+    }
+
+    @Test
+    public void testRead() {
+        // Set up the entity with a known primary key for an existing record
+        int primaryKey = 1;
+
+        // Call the read method
+        boolean result = entity.read(primaryKey);
+
+        // Check if the record was successfully read
+        assertTrue(result);
+        // Add assertions to check specific field values
+        assertEquals(123, entity.getMn());
+        assertEquals(EntityBits.OPValues.i, entity.getOp());
+    }
+
+    @Test
+    public void testUpdate() {
+        // Set up the entity with test data and a known primary key
+        entity.setMn(456);
+        entity.setOp(EntityBits.OPValues.me);
+        entity.setQr(new java.util.Date());
+        entity.setPrimaryKey(2);
+
+        // Call the update method
+        boolean result = entity.update();
+
+        // Check if the record was successfully updated
+        assertTrue(result);
+    }
+
+    @Test
+    public void testDelete() {
+        // Set up the entity with a known primary key
+        entity.setPrimaryKey(3);
+
+        // Call the delete method
+        boolean result = entity.delete();
+
+        // Check if the record was successfully deleted
+        assertTrue(result);
+    }
+
+    @Test
+    public void testSaveCreate() {
+        // Set up the entity with test data
+        entity.setMn(789);
+        entity.setOp(EntityBits.OPValues.mine);
+        entity.setQr(new java.util.Date());
+
+        // Call the save method for a new record
+        boolean result = entity.save();
+
+        // Check if the record was successfully created
+        assertTrue(result);
+        assertTrue(entity.primaryKey() > 0);
+    }
+
+    @Test
+    public void testSaveUpdate() {
+        // Set up the entity with test data and a known primary key
+        entity.setMn(1011);
+        entity.setOp(EntityBits.OPValues.i);
+        entity.setQr(new java.util.Date());
+        entity.setPrimaryKey(4);
+
+        // Call the save method for an existing record
+        boolean result = entity.save();
+
+        // Check if the record was successfully updated
+        assertTrue(result);
+    }
+
+    @Test
+    public void testSetAndGetMn() {
+        // Set the value using the setter
+        entity.setMn(123);
+
+        // Check if the getter returns the same value
+        assertEquals(123, entity.getMn());
+    }
+
+    @Test
+    public void testSetAndGetOp() {
+        // Set the value using the setter
+        entity.setOp(EntityBits.OPValues.mine);
+
+        // Check if the getter returns the same value
+        assertEquals(EntityBits.OPValues.mine, entity.getOp());
+    }
+
+    @Test
+    public void testSetAndGetQr() {
+        // Set the value using the setter
+        java.util.Date date = new java.util.Date();
+        entity.setQr(date);
+
+        // Check if the getter returns the same value
+        assertEquals(date, entity.getQr());
+    }
 }
+
+
