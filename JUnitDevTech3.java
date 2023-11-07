@@ -312,6 +312,69 @@ public class EntityBitsTest {
         // Check if the getter returns the same value
         assertEquals(date, entity.getQr());
     }
+
+
+    @Test
+    public void testPrimaryKeyColumnName() {
+        // Call the protected method primaryKeyColumnName using reflection
+        String result = invokeProtectedMethod(entity, "primaryKeyColumnName");
+
+        // Add assertions to check the result
+        assertEquals("Bits_pk", result);
+    }
+
+    @Test
+    public void testPrimaryKeyColumnIndex() {
+        // Call the protected method primaryKeyColumnIndex using reflection
+        int result = invokeProtectedMethod(entity, "primaryKeyColumnIndex");
+
+        // Add assertions to check the result
+        assertEquals(1, result);
+    }
+
+    @Test
+    public void testPrimaryKey() {
+        // Call the protected method primaryKey using reflection
+        int result = invokeProtectedMethod(entity, "primaryKey");
+
+        // Add assertions to check the result
+        assertEquals(0, result); // Modify this based on your expected behavior
+    }
+
+    @Test
+    public void testPopulateFromResultSet() {
+        // Set up a mock ResultSet for testing
+        ResultSet mockResultSet = createMockResultSet();
+
+        // Call the protected method populateFromResultSet using reflection
+        boolean result = invokeProtectedMethod(entity, "populateFromResultSet", mockResultSet);
+
+        // Add assertions to check the result
+        assertTrue(result);
+        // Add additional assertions to check if the entity's fields are correctly populated
+    }
+
+    // Helper method to invoke protected methods using reflection
+    private <T> T invokeProtectedMethod(EntityBits entity, String methodName, Object... args) {
+        try {
+            Class<?> clazz = entity.getClass();
+            java.lang.reflect.Method method = clazz.getDeclaredMethod(methodName);
+            method.setAccessible(true);
+            return (T) method.invoke(entity, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Mock ResultSet for testing populateFromResultSet
+    private ResultSet createMockResultSet() {
+        // Implement a mock ResultSet with necessary data for testing
+        // You can use a mocking framework like Mockito to create a mock ResultSet
+        return mockResultSet;
+    }
 }
+
+
 
 
